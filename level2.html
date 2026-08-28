@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Misi 2 - Makmal Enamel</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #e8f4ff;
+    text-align: center;
+    color: #263238;
+}
+
+/* HEADER */
+
+header {
+    background: white;
+    padding: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+header h1 {
+    margin: 0;
+    color: #4568b2;
+}
+
+header p {
+    margin: 6px 0 10px;
+    color: #666;
+}
+
+.game-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    font-weight: bold;
+}
+
+/* MAP */
+
+#gameMap {
+
+    width: min(1000px, 95vw);
+    height: 570px;
+
+    margin: 20px auto;
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,0.15),
+            rgba(255,255,255,0.15)
+        ),
+        #b8d8f4;
+
+    border: 7px solid white;
+    border-radius: 24px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* LAB TITLE */
+
+.lab-title {
+
+    position: absolute;
+
+    top: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: white;
+
+    padding: 12px 28px;
+
+    border-radius: 15px;
+
+    color: #4568b2;
+
+    font-weight: bold;
+}
+
+/* CLASSIFICATION ZONES */
+
+.zone {
+
+    position: absolute;
+
+    top: 95px;
+
+    width: 210px;
+    height: 135px;
+
+    background: rgba(255,255,255,0.9);
+
+    border: 4px dashed #4568b2;
+
+    border-radius: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+#zoneSusu {
+    left: 35px;
+}
+
+#zoneKekal {
+    right: 35px;
+}
+
+.zone .icon {
+    font-size: 45px;
+}
+
+.zone.correct {
+    background: #ccf6d9;
+    border-color: #31a85d;
+}
+
+/* LAB MACHINES */
+
+.machine {
+
+    position: absolute;
+
+    background: white;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+
+    padding: 15px;
+
+    font-weight: bold;
+
+    color: #4568b2;
+}
+
+#scanner {
+
+    left: 390px;
+    top: 100px;
+
+    width: 220px;
+}
+
+#strengthMachine {
+
+    right: 55px;
+    bottom: 55px;
+
+    width: 190px;
+}
+
+#xray {
+
+    left: 45px;
+    bottom: 55px;
+
+    width: 180px;
+}
+
+/* TEETH */
+
+.tooth {
+
+    position: absolute;
+
+    font-size: 43px;
+
+    cursor: pointer;
+
+    animation: floatTooth 1.4s infinite alternate;
+
+    user-select: none;
+}
+
+@keyframes floatTooth {
+
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-9px);
+    }
+}
+
+#tooth1 {
+    left: 310px;
+    top: 310px;
+}
+
+#tooth2 {
+    left: 650px;
+    top: 280px;
+}
+
+#tooth3 {
+    left: 480px;
+    top: 420px;
+}
+
+#tooth4 {
+    left: 760px;
+    top: 390px;
+}
+
+/* PLAYER */
+
+#player {
+
+    position: absolute;
+
+    width: 55px;
+    height: 55px;
+
+    left: 470px;
+    top: 260px;
+
+    border-radius: 50%;
+
+    background: #ffd166;
+
+    border: 4px solid white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 30px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+    z-index: 20;
+
+    user-select: none;
+}
+
+#carriedTooth {
+
+    position: absolute;
+
+    right: -16px;
+    top: -27px;
+
+    font-size: 25px;
+
+    display: none;
+}
+
+/* PROMPT */
+
+#prompt {
+
+    position: absolute;
+
+    bottom: 15px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(0,0,0,0.82);
+
+    color: white;
+
+    padding: 10px 20px;
+
+    border-radius: 25px;
+
+    font-weight: bold;
+
+    display: none;
+
+    z-index: 30;
+}
+
+/* INFO PANEL */
+
+#infoPanel {
+
+    width: min(800px, 92vw);
+
+    margin: 15px auto;
+
+    padding: 20px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    box-shadow: 0 5px 18px rgba(0,0,0,0.1);
+}
+
+#clue {
+    line-height: 1.7;
+}
+
+#message {
+
+    min-height: 25px;
+
+    font-weight: bold;
+
+    color: #4568b2;
+}
+
+/* BUTTON */
+
+button {
+
+    border: none;
+
+    padding: 12px 22px;
+
+    margin: 8px;
+
+    border-radius: 25px;
+
+    background: #4568b2;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background: #314d91;
+}
+
+#finishArea {
+    display: none;
+}
+
+/* KEY */
+
+.instructions {
+    margin: 15px 0 30px;
+    color: #555;
+}
+
+kbd {
+
+    background: #333;
+    color: white;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🔬 Misi 2: Makmal Enamel</h1>
+
+    <p>
+        Analisis ciri-ciri gigi dan tentukan sama ada
+        Gigi Susu atau Gigi Kekal.
+    </p>
+
+    <div class="game-info">
+
+        <span>
+            ⏱ Masa:
+            <span id="timer">04:00</span>
+        </span>
+
+        <span>
+            ⭐ Markah:
+            <span id="score">0</span>
+        </span>
+
+        <span>
+            🦷 Gigi:
+            <span id="progress">0 / 4</span>
+        </span>
+
+    </div>
+
+</header>
+
+
+<div id="gameMap">
+
+    <div class="lab-title">
+        🧪 MAKMAL ENAMEL
+    </div>
+
+
+    <div class="zone" id="zoneSusu">
+
+        <div class="icon">🥛🦷</div>
+
+        <div>
+            SET GIGI SUSU
+        </div>
+
+    </div>
+
+
+    <div class="zone" id="zoneKekal">
+
+        <div class="icon">🦷✨</div>
+
+        <div>
+            SET GIGI KEKAL
+        </div>
+
+    </div>
+
+
+    <div class="machine" id="scanner">
+        🔬 Mesin Pengimbas Enamel
+    </div>
+
+    <div class="machine" id="xray">
+        🩻 Bilik X-Ray
+    </div>
+
+    <div class="machine" id="strengthMachine">
+        ⚙️ Ujian Kekuatan
+    </div>
+
+
+    <div class="tooth" id="tooth1">🦷</div>
+    <div class="tooth" id="tooth2">🦷</div>
+    <div class="tooth" id="tooth3">🦷</div>
+    <div class="tooth" id="tooth4">🦷</div>
+
+
+    <div id="player">
+
+        🧑‍🔬
+
+        <div id="carriedTooth">
+            🦷
+        </div>
+
+    </div>
+
+
+    <div id="prompt">
+        Tekan E
+    </div>
+
+</div>
+
+
+<div id="infoPanel">
+
+    <h3>🔍 Keputusan Analisis</h3>
+
+    <p id="clue">
+        Cari gigi di dalam makmal dan dekati gigi
+        untuk menjalankan analisis.
+    </p>
+
+    <p id="message"></p>
+
+</div>
+
+
+<div>
+
+    <button onclick="window.location.href='level1.html'">
+        ← Misi Sebelumnya
+    </button>
+
+
+    <span id="finishArea">
+
+        <button onclick="location.reload()">
+            Main Semula
+        </button>
+
+        <button onclick="window.location.href='level3.html'">
+            Misi Seterusnya →
+        </button>
+
+    </span>
+
+</div>
+
+
+<div class="instructions">
+
+    Bergerak:
+
+    <kbd>W</kbd>
+    <kbd>A</kbd>
+    <kbd>S</kbd>
+    <kbd>D</kbd>
+
+    atau
+
+    ⬆️ ⬇️ ⬅️ ➡️
+
+    &nbsp;&nbsp;
+
+    Interaksi:
+
+    <kbd>E</kbd>
+
+</div>
+
+
+<script>
+
+/* ==============================
+   DATA GIGI
+================================ */
+
+const toothData = [
+
+    {
+        id: "tooth1",
+
+        type: "susu",
+
+        clues: [
+            "Enamel dan dentin lebih nipis.",
+            "Saiz gigi lebih kecil.",
+            "Kurang kuat berbanding gigi kekal."
+        ]
+    },
+
+    {
+        id: "tooth2",
+
+        type: "kekal",
+
+        clues: [
+            "Enamel dan dentin lebih tebal.",
+            "Saiz gigi lebih besar.",
+            "Lebih kuat dan tahan lama."
+        ]
+    },
+
+    {
+        id: "tooth3",
+
+        type: "susu",
+
+        clues: [
+            "Saiznya lebih kecil.",
+            "Lapisan enamel lebih nipis.",
+            "Kekuatan gigi lebih rendah."
+        ]
+    },
+
+    {
+        id: "tooth4",
+
+        type: "kekal",
+
+        clues: [
+            "Lapisan enamel lebih tebal.",
+            "Saiznya lebih besar.",
+            "Lebih kuat berbanding gigi susu."
+        ]
+    }
+
+];
+
+
+/* ==============================
+   ELEMENTS
+================================ */
+
+const map =
+document.getElementById("gameMap");
+
+const player =
+document.getElementById("player");
+
+const carriedTooth =
+document.getElementById("carriedTooth");
+
+const promptBox =
+document.getElementById("prompt");
+
+const clue =
+document.getElementById("clue");
+
+const message =
+document.getElementById("message");
+
+const scoreText =
+document.getElementById("score");
+
+const progressText =
+document.getElementById("progress");
+
+const timerText =
+document.getElementById("timer");
+
+const zoneSusu =
+document.getElementById("zoneSusu");
+
+const zoneKekal =
+document.getElementById("zoneKekal");
+
+
+/* ==============================
+   VARIABLES
+================================ */
+
+let x = 470;
+let y = 260;
+
+let carrying = false;
+
+let currentTooth = null;
+
+let score = 0;
+
+let completed = 0;
+
+let timeLeft = 240;
+
+let gameOver = false;
+
+let finished = false;
+
+const keys = {};
+
+
+/* ==============================
+   PLAYER MOVEMENT
+================================ */
+
+function updatePlayer() {
+
+    player.style.left =
+        x + "px";
+
+    player.style.top =
+        y + "px";
+}
+
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const key =
+            event.key.toLowerCase();
+
+
+        if (
+            [
+                "arrowup",
+                "arrowdown",
+                "arrowleft",
+                "arrowright"
+            ].includes(key)
+        ) {
+
+            event.preventDefault();
+        }
+
+
+        keys[key] = true;
+
+
+        if (
+            key === "e"
+            &&
+            !event.repeat
+        ) {
+
+            interact();
+        }
+    }
+);
+
+
+document.addEventListener(
+    "keyup",
+    function(event) {
+
+        keys[event.key.toLowerCase()] = false;
+    }
+);
+
+
+function movementLoop() {
+
+    if (
+        !gameOver
+        &&
+        !finished
+    ) {
+
+        const speed = 4;
+
+
+        if (
+            keys["w"]
+            ||
+            keys["arrowup"]
+        ) {
+
+            y -= speed;
+        }
+
+
+        if (
+            keys["s"]
+            ||
+            keys["arrowdown"]
+        ) {
+
+            y += speed;
+        }
+
+
+        if (
+            keys["a"]
+            ||
+            keys["arrowleft"]
+        ) {
+
+            x -= speed;
+        }
+
+
+        if (
+            keys["d"]
+            ||
+            keys["arrowright"]
+        ) {
+
+            x += speed;
+        }
+
+
+        x =
+        Math.max(
+            0,
+            Math.min(
+                map.clientWidth
+                -
+                player.offsetWidth,
+                x
+            )
+        );
+
+
+        y =
+        Math.max(
+            0,
+            Math.min(
+                map.clientHeight
+                -
+                player.offsetHeight,
+                y
+            )
+        );
+
+
+        updatePlayer();
+
+        checkNearby();
+    }
+
+
+    requestAnimationFrame(
+        movementLoop
+    );
+}
+
+
+movementLoop();
+
+
+/* ==============================
+   DISTANCE
+================================ */
+
+function centerOf(element) {
+
+    return {
+
+        x:
+        element.offsetLeft
+        +
+        element.offsetWidth / 2,
+
+        y:
+        element.offsetTop
+        +
+        element.offsetHeight / 2
+    };
+}
+
+
+function distanceTo(element) {
+
+    const p =
+    centerOf(player);
+
+    const o =
+    centerOf(element);
+
+
+    const dx =
+    p.x - o.x;
+
+    const dy =
+    p.y - o.y;
+
+
+    return Math.sqrt(
+        dx * dx
+        +
+        dy * dy
+    );
+}
+
+
+/* ==============================
+   NEARBY CHECK
+================================ */
+
+function checkNearby() {
+
+    let showPrompt = false;
+
+
+    if (!carrying) {
+
+        for (
+            let i = 0;
+            i < toothData.length;
+            i++
+        ) {
+
+            const data =
+            toothData[i];
+
+            const element =
+            document.getElementById(
+                data.id
+            );
+
+
+            if (
+                element.style.display
+                !==
+                "none"
+
+                &&
+
+                distanceTo(element)
+                <
+                80
+            ) {
+
+                promptBox.textContent =
+                "Tekan E untuk mengimbas gigi";
+
+                showPrompt = true;
+
+                break;
+            }
+        }
+    }
+
+
+    if (carrying) {
+
+        if (
+            distanceTo(zoneSusu)
+            <
+            120
+
+            ||
+
+            distanceTo(zoneKekal)
+            <
+            120
+        ) {
+
+            promptBox.textContent =
+            "Tekan E untuk mengelaskan gigi";
+
+            showPrompt = true;
+        }
+    }
+
+
+    promptBox.style.display =
+    showPrompt
+    ?
+    "block"
+    :
+    "none";
+}
+
+
+/* ==============================
+   INTERACTION
+================================ */
+
+function interact() {
+
+    if (
+        gameOver
+        ||
+        finished
+    ) {
+
+        return;
+    }
+
+
+    /* PICK UP */
+
+    if (!carrying) {
+
+        for (
+            let i = 0;
+            i < toothData.length;
+            i++
+        ) {
+
+            const data =
+            toothData[i];
+
+            const element =
+            document.getElementById(
+                data.id
+            );
+
+
+            if (
+                element.style.display
+                !==
+                "none"
+
+                &&
+
+                distanceTo(element)
+                <
+                80
+            ) {
+
+                currentTooth =
+                data;
+
+                carrying = true;
+
+
+                element.style.display =
+                "none";
+
+
+                carriedTooth.style.display =
+                "block";
+
+
+                score += 10;
+
+                updateScore();
+
+
+                clue.innerHTML =
+
+                "🔬 <strong>Keputusan imbasan:</strong>"
+
+                +
+
+                "<br><br>"
+
+                +
+
+                "• "
+                +
+                data.clues[0]
+
+                +
+
+                "<br>"
+
+                +
+
+                "• "
+                +
+                data.clues[1]
+
+                +
+
+                "<br>"
+
+                +
+
+                "• "
+                +
+                data.clues[2]
+
+                +
+
+                "<br><br>"
+
+                +
+
+                "<strong>Adakah ini Gigi Susu atau Gigi Kekal?</strong>";
+
+
+                message.textContent =
+                "Analisis selesai! +10 markah";
+
+
+                return;
+            }
+        }
+    }
+
+
+    /* CLASSIFY */
+
+    if (carrying) {
+
+        let selectedType = null;
+
+
+        if (
+            distanceTo(zoneSusu)
+            <
+            120
+        ) {
+
+            selectedType =
+            "susu";
+        }
+
+
+        if (
+            distanceTo(zoneKekal)
+            <
+            120
+        ) {
+
+            selectedType =
+            "kekal";
+        }
+
+
+        if (!selectedType) {
+
+            return;
+        }
+
+
+        /* CORRECT */
+
+        if (
+            selectedType
+            ===
+            currentTooth.type
+        ) {
+
+            carrying = false;
+
+            carriedTooth.style.display =
+            "none";
+
+
+            completed++;
+
+            score += 30;
+
+
+            updateScore();
+
+
+            progressText.textContent =
+            completed
+            +
+            " / 4";
+
+
+            message.textContent =
+            "✅ Betul! +30 markah";
+
+
+            if (
+                selectedType
+                ===
+                "susu"
+            ) {
+
+                clue.innerHTML =
+
+                "✅ <strong>Gigi Susu</strong>"
+
+                +
+
+                "<br><br>"
+
+                +
+
+                "Enamel dan dentinnya lebih nipis, "
+
+                +
+
+                "saiznya lebih kecil dan kurang kuat.";
+            }
+
+            else {
+
+                clue.innerHTML =
+
+                "✅ <strong>Gigi Kekal</strong>"
+
+                +
+
+                "<br><br>"
+
+                +
+
+                "Enamel dan dentinnya lebih tebal, "
+
+                +
+
+                "saiznya lebih besar dan lebih kuat.";
+            }
+
+
+            currentTooth = null;
+
+
+            if (
+                completed === 4
+            ) {
+
+                finishLevel();
+            }
+
+
+            return;
+        }
+
+
+        /* WRONG */
+
+        else {
+
+            timeLeft =
+            Math.max(
+                0,
+                timeLeft - 5
+            );
+
+
+            updateTimer();
+
+
+            message.textContent =
+            "❌ Belum tepat. Semak keputusan analisis! -5 saat";
+        }
+    }
+}
+
+
+/* ==============================
+   FINISH
+================================ */
+
+function finishLevel() {
+
+    finished = true;
+
+    promptBox.style.display =
+    "none";
+
+
+    clue.innerHTML =
+
+    "🏆 <strong>Makmal Enamel selesai!</strong>"
+
+    +
+
+    "<br><br>"
+
+    +
+
+    "Anda berjaya membezakan "
+
+    +
+
+    "<strong>Gigi Susu</strong> dan "
+
+    +
+
+    "<strong>Gigi Kekal</strong> "
+
+    +
+
+    "berdasarkan enamel, dentin, saiz dan kekuatan.";
+
+
+    message.textContent =
+    "Tahniah! Semua gigi telah dikelaskan.";
+
+
+    document.getElementById(
+        "finishArea"
+    ).style.display =
+    "inline";
+}
+
+
+/* ==============================
+   SCORE
+================================ */
+
+function updateScore() {
+
+    scoreText.textContent =
+    score;
+}
+
+
+/* ==============================
+   TIMER
+================================ */
+
+function updateTimer() {
+
+    const minutes =
+    Math.floor(
+        timeLeft / 60
+    );
+
+
+    const seconds =
+    timeLeft % 60;
+
+
+    timerText.textContent =
+
+    String(minutes)
+
+    +
+
+    ":"
+
+    +
+
+    String(seconds).padStart(
+        2,
+        "0"
+    );
+}
+
+
+setInterval(
+    function() {
+
+        if (
+            gameOver
+            ||
+            finished
+        ) {
+
+            return;
+        }
+
+
+        timeLeft--;
+
+
+        if (
+            timeLeft <= 0
+        ) {
+
+            timeLeft = 0;
+
+            gameOver = true;
+
+
+            message.textContent =
+            "⏰ Masa Tamat!";
+
+
+            clue.innerHTML =
+
+            "Masa telah tamat."
+
+            +
+
+            "<br>"
+
+            +
+
+            "Cuba semula dan analisis ciri-ciri gigi dengan teliti.";
+
+
+            document.getElementById(
+                "finishArea"
+            ).style.display =
+            "inline";
+        }
+
+
+        updateTimer();
+
+    },
+
+    1000
+);
+
+
+updateTimer();
+updatePlayer();
+
+</script>
+
+</body>
+</html>
