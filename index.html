@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Misi Gigi Tersembunyi</title>
+<title>Misi Gigi Tersembunyi - Klinik Gigi</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -16,7 +17,12 @@ body {
     font-family: Arial, sans-serif;
     background: #dff7fb;
     text-align: center;
+    color: #333;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 header {
     background: white;
@@ -25,23 +31,27 @@ header {
 }
 
 header h1 {
-    margin: 0;
+    margin: 0 0 8px;
     color: #217a91;
 }
 
-.info {
-    margin-top: 8px;
+.game-info {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    flex-wrap: wrap;
+    gap: 25px;
     font-weight: bold;
 }
 
+/* =========================
+   MAP
+========================= */
+
 #gameMap {
-    width: min(900px, 95vw);
+    width: min(1000px, 96vw);
     aspect-ratio: 16 / 9;
 
-    margin: 20px auto;
+    margin: 18px auto;
 
     position: relative;
     overflow: hidden;
@@ -56,21 +66,19 @@ header h1 {
     border: 6px solid white;
     border-radius: 20px;
 
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    box-shadow:
+        0 8px 30px
+        rgba(0,0,0,0.15);
 }
 
-/* Klinik counter */
+/* =========================
+   KLINIK OBJECTS
+========================= */
 
-.counter {
+.object {
     position: absolute;
 
-    left: 35%;
-    top: 8%;
-
-    width: 30%;
-    height: 13%;
-
-    background: white;
+    background: rgba(255,255,255,0.8);
 
     border-radius: 12px;
 
@@ -78,45 +86,71 @@ header h1 {
     align-items: center;
     justify-content: center;
 
-    font-weight: bold;
     color: #217a91;
+    font-weight: bold;
+
+    box-shadow:
+        0 3px 8px
+        rgba(0,0,0,0.08);
 }
 
-/* Dental chair */
+#counter {
+    left: 36%;
+    top: 7%;
 
-.chair {
-    position: absolute;
+    width: 28%;
+    height: 12%;
+}
 
-    right: 12%;
-    top: 20%;
+#chair {
+    right: 8%;
+    top: 23%;
 
-    width: 18%;
+    width: 19%;
+    height: 20%;
+
+    font-size: 36px;
+}
+
+#cabinet {
+    right: 7%;
+    bottom: 8%;
+
+    width: 19%;
+    height: 15%;
+}
+
+#sink {
+    left: 34%;
+    top: 31%;
+
+    width: 15%;
+    height: 13%;
+}
+
+#xray {
+    left: 52%;
+    bottom: 8%;
+
+    width: 14%;
     height: 18%;
-
-    background: #8ed1dc;
-
-    border-radius: 20px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 38px;
 }
 
-/* Zones */
+/* =========================
+   CLASSIFICATION ZONES
+========================= */
 
 .zone {
     position: absolute;
 
-    left: 4%;
+    left: 3%;
 
-    width: 22%;
-    height: 18%;
+    width: 24%;
+    height: 19%;
 
     border: 3px dashed #247b91;
 
-    background: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.85);
 
     border-radius: 15px;
 
@@ -127,57 +161,78 @@ header h1 {
     flex-direction: column;
 
     font-weight: bold;
+
+    transition: 0.25s;
+}
+
+.zone:hover {
+    background: white;
 }
 
 #zoneKacip {
-    top: 12%;
+    top: 9%;
 }
 
 #zoneTaring {
-    top: 40%;
+    top: 39%;
 }
 
 #zoneGeraham {
-    top: 68%;
+    top: 69%;
 }
 
-.zone.correct {
-    background: #c7f5d5;
-    border-color: #25a55f;
+.zone-count {
+    margin-top: 5px;
+    color: #217a91;
 }
 
-/* Tooth */
+.zone.flash-correct {
+    background: #c8f5d6;
+    border-color: #2ba866;
+}
 
-#tooth {
+/* =========================
+   TEETH
+========================= */
+
+.tooth {
     position: absolute;
 
-    left: 72%;
-    top: 68%;
-
-    font-size: 42px;
+    font-size: 36px;
 
     cursor: pointer;
 
-    animation: floating 1.5s infinite alternate;
+    animation:
+        floating 1.5s
+        infinite alternate;
+
+    filter:
+        drop-shadow(
+            0 2px 3px
+            rgba(0,0,0,0.2)
+        );
 }
 
 @keyframes floating {
+
     from {
-        transform: translateY(0);
+        transform:
+            translateY(0);
     }
 
     to {
-        transform: translateY(-8px);
+        transform:
+            translateY(-7px);
     }
+
 }
 
-/* Player */
+/* =========================
+   PLAYER
+========================= */
 
 #player {
     position: absolute;
-
-    left: 42%;
-    top: 55%;
 
     width: 48px;
     height: 48px;
@@ -192,25 +247,29 @@ header h1 {
     align-items: center;
     justify-content: center;
 
-    font-size: 26px;
+    font-size: 25px;
 
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    box-shadow:
+        0 3px 10px
+        rgba(0,0,0,0.25);
 
-    z-index: 10;
+    z-index: 50;
 }
 
 #carriedTooth {
     position: absolute;
 
-    right: -13px;
-    top: -22px;
+    right: -15px;
+    top: -24px;
 
-    font-size: 25px;
+    font-size: 27px;
 
     display: none;
 }
 
-/* Prompt */
+/* =========================
+   INTERACTION PROMPT
+========================= */
 
 #prompt {
     position: absolute;
@@ -218,319 +277,765 @@ header h1 {
     bottom: 10px;
     left: 50%;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    background: rgba(0,0,0,0.78);
+    background:
+        rgba(0,0,0,0.82);
 
     color: white;
 
-    padding: 9px 18px;
+    padding:
+        9px 18px;
 
     border-radius: 20px;
 
     display: none;
 
-    z-index: 20;
+    z-index: 100;
+
+    font-weight: bold;
 }
 
-/* Information panel */
+/* =========================
+   INFORMATION PANEL
+========================= */
 
-#cluePanel {
-    width: min(700px, 90vw);
+#infoPanel {
+    width: min(760px, 92vw);
 
     margin: 15px auto;
 
     background: white;
 
-    padding: 15px;
+    padding: 17px;
 
     border-radius: 15px;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.1);
 }
 
 #clue {
-    color: #444;
+    line-height: 1.6;
 }
 
 #message {
+    min-height: 24px;
+
     font-weight: bold;
+
     color: #217a91;
-    min-height: 25px;
 }
+
+.mirror-info {
+    font-size: 14px;
+    color: #666;
+}
+
+/* =========================
+   INSTRUCTIONS
+========================= */
 
 .instructions {
     margin-bottom: 25px;
+
     color: #555;
 }
 
 kbd {
     background: #333;
+
     color: white;
 
     padding: 4px 8px;
 
     border-radius: 5px;
 }
+
+/* =========================
+   VICTORY SCREEN
+========================= */
+
+#victoryScreen {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,0.65);
+
+    z-index: 500;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.victory-box {
+    width: min(500px, 90vw);
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 15px 50px
+        rgba(0,0,0,0.3);
+}
+
+.victory-box h2 {
+    color: #1c8e59;
+
+    font-size: 32px;
+}
+
+.victory-box button {
+    border: none;
+
+    padding:
+        13px 28px;
+
+    border-radius: 25px;
+
+    background: #38b6c9;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.victory-box button:hover {
+    background: #249aae;
+}
+
 </style>
 </head>
 
+
 <body>
+
 
 <header>
 
-    <h1>🦷 Misi Gigi Tersembunyi</h1>
+<h1>
+🦷 Misi Gigi Tersembunyi
+</h1>
 
-    <div class="info">
+<div class="game-info">
 
-        <span>
-            ⏱ Masa:
-            <span id="timer">03:00</span>
-        </span>
+<span>
+🏥 Misi 1:
+Klinik Gigi
+</span>
 
-        <span>
-            ⭐ Markah:
-            <span id="score">0</span>
-        </span>
+<span>
+⏱ Masa:
+<span id="timer">
+05:00
+</span>
+</span>
 
-        <span>
-            🦷 Gigi:
-            <span id="progress">0 / 1</span>
-        </span>
+<span>
+⭐ Markah:
+<span id="score">
+0
+</span>
+</span>
 
-    </div>
+<span>
+🦷 Set Gigi Susu:
+<span id="totalProgress">
+0 / 20
+</span>
+</span>
+
+</div>
 
 </header>
 
 
 <div id="gameMap">
 
-    <div class="counter">
-        🏥 Kaunter Klinik Gigi
-    </div>
 
-    <div class="chair">
-        🪥
-    </div>
+<!-- CLASSIFICATION AREA -->
 
 
-    <div
-        class="zone"
-        id="zoneKacip"
-    >
+<div
+class="zone"
+id="zoneKacip"
+data-type="kacip">
 
-        🦷
+<span>
+🦷 Gigi Kacip
+</span>
 
-        <span>
-            Gigi Kacip
-        </span>
+<span
+class="zone-count"
+id="countKacip">
 
-    </div>
+0 / 8
 
-
-    <div
-        class="zone"
-        id="zoneTaring"
-    >
-
-        🦷
-
-        <span>
-            Gigi Taring
-        </span>
-
-    </div>
-
-
-    <div
-        class="zone"
-        id="zoneGeraham"
-    >
-
-        🦷
-
-        <span>
-            Gigi Geraham
-        </span>
-
-    </div>
-
-
-    <div id="tooth">
-        🦷
-    </div>
-
-
-    <div id="player">
-
-        🧑‍⚕️
-
-        <div id="carriedTooth">
-            🦷
-        </div>
-
-    </div>
-
-
-    <div id="prompt">
-        Tekan E
-    </div>
+</span>
 
 </div>
 
 
-<div id="cluePanel">
+<div
+class="zone"
+id="zoneTaring"
+data-type="taring">
 
-    <strong>
-        🔍 Maklumat Gigi
-    </strong>
+<span>
+🦷 Gigi Taring
+</span>
 
-    <p id="clue">
+<span
+class="zone-count"
+id="countTaring">
 
-        Cari gigi yang tersembunyi
-        di dalam klinik.
+0 / 4
 
-    </p>
-
-    <p id="message"></p>
+</span>
 
 </div>
+
+
+<div
+class="zone"
+id="zoneGeraham"
+data-type="geraham">
+
+<span>
+🦷 Gigi Geraham
+</span>
+
+<span
+class="zone-count"
+id="countGeraham">
+
+0 / 8
+
+</span>
+
+</div>
+
+
+
+<!-- KLINIK DECORATION -->
+
+
+<div
+class="object"
+id="counter">
+
+🏥 Kaunter Klinik
+
+</div>
+
+
+<div
+class="object"
+id="chair">
+
+🪥 🪑
+
+</div>
+
+
+<div
+class="object"
+id="cabinet">
+
+🗄️ Kabinet
+
+</div>
+
+
+<div
+class="object"
+id="sink">
+
+🚰 Sinki
+
+</div>
+
+
+<div
+class="object"
+id="xray">
+
+🩻 X-Ray
+
+</div>
+
+
+
+<!-- TEETH WILL BE CREATED HERE -->
+
+<div id="teethContainer"></div>
+
+
+
+<!-- PLAYER -->
+
+
+<div id="player">
+
+🧑‍⚕️
+
+<div id="carriedTooth">
+🦷
+</div>
+
+</div>
+
+
+<div id="prompt">
+Tekan E
+</div>
+
+
+</div>
+
+
+
+<div id="infoPanel">
+
+<strong>
+🔍 Maklumat Gigi
+</strong>
+
+<p id="clue">
+
+Cari 10 gigi wakil yang
+tersembunyi di dalam klinik.
+
+</p>
+
+<p class="mirror-info">
+
+💡 Sistem cermin:
+Setiap gigi wakil yang dipasang
+akan menghasilkan pasangan
+simetri secara automatik.
+
+</p>
+
+<p id="message"></p>
+
+</div>
+
 
 
 <div class="instructions">
 
-    Bergerak menggunakan
+Bergerak:
 
-    <kbd>W</kbd>
-    <kbd>A</kbd>
-    <kbd>S</kbd>
-    <kbd>D</kbd>
+<kbd>W</kbd>
+<kbd>A</kbd>
+<kbd>S</kbd>
+<kbd>D</kbd>
 
-    atau kekunci anak panah.
+atau
 
-    &nbsp;
+<kbd>↑</kbd>
+<kbd>↓</kbd>
+<kbd>←</kbd>
+<kbd>→</kbd>
 
-    Tekan
+&nbsp;&nbsp;
 
-    <kbd>E</kbd>
+Interaksi:
 
-    untuk berinteraksi.
+<kbd>E</kbd>
 
 </div>
 
 
+
+<!-- VICTORY -->
+
+
+<div id="victoryScreen">
+
+<div class="victory-box">
+
+<h2>
+🎉 Tahniah!
+</h2>
+
+<p>
+Set Gigi Susu telah lengkap!
+</p>
+
+<h3>
+🦷 20 / 20 batang gigi
+</h3>
+
+<p>
+8 Gigi Kacip
+<br>
+4 Gigi Taring
+<br>
+8 Gigi Geraham
+</p>
+
+<p>
+⭐ Markah:
+<strong id="finalScore">
+0
+</strong>
+</p>
+
+<button onclick="location.reload()">
+
+Main Semula
+
+</button>
+
+</div>
+
+</div>
+
+
+
 <script>
 
+/* =========================
+   BASIC ELEMENTS
+========================= */
+
 const map =
-document.getElementById("gameMap");
+document.getElementById(
+    "gameMap"
+);
 
 const player =
-document.getElementById("player");
+document.getElementById(
+    "player"
+);
 
-const tooth =
-document.getElementById("tooth");
-
-const carriedTooth =
-document.getElementById("carriedTooth");
+const carriedToothIcon =
+document.getElementById(
+    "carriedTooth"
+);
 
 const prompt =
-document.getElementById("prompt");
+document.getElementById(
+    "prompt"
+);
 
 const clue =
-document.getElementById("clue");
+document.getElementById(
+    "clue"
+);
 
 const message =
-document.getElementById("message");
+document.getElementById(
+    "message"
+);
 
 
 const zoneKacip =
-document.getElementById("zoneKacip");
+document.getElementById(
+    "zoneKacip"
+);
 
 const zoneTaring =
-document.getElementById("zoneTaring");
+document.getElementById(
+    "zoneTaring"
+);
 
 const zoneGeraham =
-document.getElementById("zoneGeraham");
+document.getElementById(
+    "zoneGeraham"
+);
 
 
-let playerX;
-let playerY;
+/* =========================
+   TOOTH DATA
+========================= */
 
-let carrying = false;
+/*
 
-let finished = false;
+10 representative milk teeth:
+
+4 kacip
+2 taring
+4 geraham
+
+After mirror:
+
+8 kacip
+4 taring
+8 geraham
+
+TOTAL = 20
+
+*/
+
+const teethData = [
+
+{
+id: 1,
+type: "kacip",
+x: 72,
+y: 68,
+clue:
+"Terletak di bahagian hadapan mulut.<br>Berbentuk nipis dan tajam.<br>Digunakan untuk memotong makanan."
+},
+
+{
+id: 2,
+type: "kacip",
+x: 84,
+y: 14,
+clue:
+"Berada di bahagian paling hadapan.<br>Mempunyai tepi yang tajam.<br>Membantu memotong makanan."
+},
+
+{
+id: 3,
+type: "kacip",
+x: 58,
+y: 35,
+clue:
+"Permukaannya nipis.<br>Berada di bahagian hadapan mulut.<br>Fungsinya ialah memotong makanan."
+},
+
+{
+id: 4,
+type: "kacip",
+x: 45,
+y: 77,
+clue:
+"Gigi ini berada di hadapan.<br>Bahagian hujungnya sesuai untuk menggigit dan memotong makanan."
+},
+
+
+{
+id: 5,
+type: "taring",
+x: 87,
+y: 53,
+clue:
+"Berbentuk lebih tajam dan runcing.<br>Terletak bersebelahan gigi kacip.<br>Digunakan untuk mengoyak makanan."
+},
+
+{
+id: 6,
+type: "taring",
+x: 31,
+y: 63,
+clue:
+"Mempunyai hujung yang runcing.<br>Fungsinya ialah mencarik dan mengoyak makanan."
+},
+
+
+{
+id: 7,
+type: "geraham",
+x: 67,
+y: 82,
+clue:
+"Terletak di bahagian belakang mulut.<br>Permukaannya lebih lebar.<br>Digunakan untuk mengisar makanan."
+},
+
+{
+id: 8,
+type: "geraham",
+x: 79,
+y: 38,
+clue:
+"Berada di bahagian belakang.<br>Mempunyai permukaan yang luas.<br>Menghancurkan dan mengisar makanan."
+},
+
+{
+id: 9,
+type: "geraham",
+x: 52,
+y: 18,
+clue:
+"Gigi ini mempunyai permukaan yang lebar.<br>Fungsinya ialah menghancurkan makanan sebelum ditelan."
+},
+
+{
+id: 10,
+type: "geraham",
+x: 35,
+y: 30,
+clue:
+"Terletak jauh di bahagian belakang mulut.<br>Membantu mengisar dan menghancurkan makanan."
+}
+
+];
+
+
+/* =========================
+   CREATE TEETH
+========================= */
+
+function createTeeth() {
+
+    const container =
+    document.getElementById(
+        "teethContainer"
+    );
+
+
+    teethData.forEach(
+        function(data) {
+
+            const tooth =
+            document.createElement(
+                "div"
+            );
+
+            tooth.className =
+            "tooth";
+
+            tooth.textContent =
+            "🦷";
+
+            tooth.dataset.id =
+            data.id;
+
+            tooth.style.left =
+            data.x + "%";
+
+            tooth.style.top =
+            data.y + "%";
+
+
+            container.appendChild(
+                tooth
+            );
+
+        }
+    );
+
+}
+
+createTeeth();
+
+
+/* =========================
+   GAME STATE
+========================= */
+
+let playerX =
+map.clientWidth * 0.42;
+
+let playerY =
+map.clientHeight * 0.52;
+
+
+let carriedTooth = null;
+
 
 let score = 0;
 
-let timeLeft = 180;
+
+let timeLeft = 300;
+
 
 let gameOver = false;
+
+
+let completedRepresentatives = 0;
+
+
+const placed = {
+
+    kacip: 0,
+    taring: 0,
+    geraham: 0
+
+};
 
 
 const keys = {};
 
 
-function startPosition() {
-
-    playerX =
-        map.clientWidth * 0.42;
-
-    playerY =
-        map.clientHeight * 0.55;
-
-    updatePlayer();
-
-}
-
-startPosition();
-
+/* =========================
+   PLAYER
+========================= */
 
 function updatePlayer() {
 
     player.style.left =
-        playerX + "px";
+    playerX + "px";
 
     player.style.top =
-        playerY + "px";
+    playerY + "px";
 
 }
 
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        keys[event.key.toLowerCase()] = true;
-
-        if (
-            event.key.toLowerCase() === "e"
-            &&
-            !event.repeat
-        ) {
-
-            interact();
-
-        }
-
-    }
-);
+updatePlayer();
 
 
 document.addEventListener(
-    "keyup",
-    function(event) {
+"keydown",
 
-        keys[event.key.toLowerCase()] = false;
+function(event) {
+
+    const key =
+    event.key.toLowerCase();
+
+
+    if (
+        key.startsWith(
+            "arrow"
+        )
+    ) {
+
+        event.preventDefault();
 
     }
-);
+
+
+    keys[key] = true;
+
+
+    if (
+        key === "e"
+        &&
+        !event.repeat
+    ) {
+
+        interact();
+
+    }
+
+});
+
+
+document.addEventListener(
+"keyup",
+
+function(event) {
+
+    keys[
+        event.key.toLowerCase()
+    ] = false;
+
+});
 
 
 function movementLoop() {
 
     if (!gameOver) {
 
-        const speed = 3.5;
+        const speed = 3.7;
 
 
         if (
@@ -578,27 +1083,39 @@ function movementLoop() {
 
 
         playerX =
-            Math.max(
-                0,
-                Math.min(
-                    map.clientWidth
-                    -
-                    player.offsetWidth,
-                    playerX
-                )
-            );
+        Math.max(
+
+            0,
+
+            Math.min(
+
+                map.clientWidth
+                -
+                player.offsetWidth,
+
+                playerX
+
+            )
+
+        );
 
 
         playerY =
-            Math.max(
-                0,
-                Math.min(
-                    map.clientHeight
-                    -
-                    player.offsetHeight,
-                    playerY
-                )
-            );
+        Math.max(
+
+            0,
+
+            Math.min(
+
+                map.clientHeight
+                -
+                player.offsetHeight,
+
+                playerY
+
+            )
+
+        );
 
 
         updatePlayer();
@@ -614,23 +1131,26 @@ function movementLoop() {
 
 }
 
-
 movementLoop();
 
+
+/* =========================
+   DISTANCE
+========================= */
 
 function getCenter(element) {
 
     return {
 
         x:
-            element.offsetLeft
-            +
-            element.offsetWidth / 2,
+        element.offsetLeft
+        +
+        element.offsetWidth / 2,
 
         y:
-            element.offsetTop
-            +
-            element.offsetHeight / 2
+        element.offsetTop
+        +
+        element.offsetHeight / 2
 
     };
 
@@ -640,10 +1160,10 @@ function getCenter(element) {
 function distanceTo(element) {
 
     const p =
-        getCenter(player);
+    getCenter(player);
 
     const e =
-        getCenter(element);
+    getCenter(element);
 
 
     return Math.sqrt(
@@ -665,28 +1185,97 @@ function distanceTo(element) {
 }
 
 
+/* =========================
+   FIND NEARBY TOOTH
+========================= */
+
+function findNearbyTooth() {
+
+    const teeth =
+    document.querySelectorAll(
+        ".tooth"
+    );
+
+
+    let nearest = null;
+
+    let nearestDistance =
+    Infinity;
+
+
+    teeth.forEach(
+        function(element) {
+
+            if (
+                element.style.display
+                ===
+                "none"
+            ) {
+
+                return;
+
+            }
+
+
+            const distance =
+            distanceTo(
+                element
+            );
+
+
+            if (
+                distance < 70
+                &&
+                distance
+                <
+                nearestDistance
+            ) {
+
+                nearest =
+                element;
+
+                nearestDistance =
+                distance;
+
+            }
+
+        }
+    );
+
+
+    return nearest;
+
+}
+
+
+/* =========================
+   PROMPTS
+========================= */
+
 function checkNearby() {
 
-    let showPrompt = false;
+    let visible = false;
 
 
-    if (
-        !carrying
-        &&
-        !finished
-        &&
-        distanceTo(tooth) < 75
-    ) {
+    if (!carriedTooth) {
 
-        showPrompt = true;
+        const nearby =
+        findNearbyTooth();
 
-        prompt.textContent =
+
+        if (nearby) {
+
+            visible = true;
+
+            prompt.textContent =
             "Tekan E untuk memeriksa gigi";
+
+        }
 
     }
 
 
-    if (carrying) {
+    if (carriedTooth) {
 
         const zones = [
 
@@ -697,45 +1286,47 @@ function checkNearby() {
         ];
 
 
-        zones.forEach(
-            function(zone) {
+        for (
+            const zone of zones
+        ) {
 
-                if (
-                    distanceTo(zone)
-                    <
-                    95
-                ) {
+            if (
+                distanceTo(zone)
+                <
+                100
+            ) {
 
-                    showPrompt = true;
+                visible = true;
 
-                    prompt.textContent =
-                        "Tekan E untuk meletakkan gigi";
+                prompt.textContent =
+                "Tekan E untuk meletakkan gigi";
 
-                }
+                break;
 
             }
-        );
+
+        }
 
     }
 
 
     prompt.style.display =
-        showPrompt
-        ?
-        "block"
-        :
-        "none";
+    visible
+    ?
+    "block"
+    :
+    "none";
 
 }
 
 
+/* =========================
+   INTERACTION
+========================= */
+
 function interact() {
 
-    if (
-        gameOver
-        ||
-        finished
-    ) {
+    if (gameOver) {
 
         return;
 
@@ -743,45 +1334,74 @@ function interact() {
 
 
     /*
-    Pick up the tooth
+    PICK UP TOOTH
     */
 
-    if (
-        !carrying
-        &&
-        distanceTo(tooth)
-        <
-        75
-    ) {
+    if (!carriedTooth) {
 
-        carrying = true;
+        const element =
+        findNearbyTooth();
 
-        tooth.style.display =
-            "none";
 
-        carriedTooth.style.display =
-            "block";
+        if (!element) {
+
+            return;
+
+        }
+
+
+        const id =
+        Number(
+            element.dataset.id
+        );
+
+
+        const data =
+        teethData.find(
+            function(tooth) {
+
+                return tooth.id
+                ===
+                id;
+
+            }
+        );
+
+
+        carriedTooth = {
+
+            data:
+            data,
+
+            element:
+            element
+
+        };
+
+
+        element.style.display =
+        "none";
+
+
+        carriedToothIcon.style.display =
+        "block";
 
 
         clue.innerHTML =
 
-            "🦷 <strong>Ciri-ciri gigi:</strong><br><br>"
-
-            +
-
-            "• Terletak di bahagian hadapan mulut.<br>"
-
-            +
-
-            "• Berbentuk nipis dan tajam.<br>"
-
-            +
-
-            "• Digunakan untuk memotong makanan.<br><br>"
-
-            +
-
-            "Bawa gigi ini ke kawasan yang betul.";
+        "🦷 <strong>Ciri-ciri gigi:</strong>"
+        +
+        "<br><br>"
+        +
+        data.clue
+        +
+        "<br><br>"
+        +
+        "<strong>"
+        +
+        "Bawa gigi ke kawasan yang betul."
+        +
+        "</strong>";
 
 
         score += 10;
@@ -790,7 +1410,8 @@ function interact() {
 
 
         message.textContent =
-            "Gigi ditemui! +10 markah";
+        "Gigi ditemui! +10 markah";
+
 
         return;
 
@@ -798,58 +1419,128 @@ function interact() {
 
 
     /*
-    Correct zone
+    PUT TOOTH INTO ZONE
+    */
+
+
+    const zones = [
+
+        zoneKacip,
+        zoneTaring,
+        zoneGeraham
+
+    ];
+
+
+    let nearbyZone =
+    null;
+
+
+    for (
+        const zone of zones
+    ) {
+
+        if (
+            distanceTo(zone)
+            <
+            100
+        ) {
+
+            nearbyZone =
+            zone;
+
+            break;
+
+        }
+
+    }
+
+
+    if (!nearbyZone) {
+
+        return;
+
+    }
+
+
+    const selectedType =
+    nearbyZone.dataset.type;
+
+
+    /*
+    CORRECT
     */
 
     if (
-        carrying
-        &&
-        distanceTo(zoneKacip)
-        <
-        95
+        selectedType
+        ===
+        carriedTooth.data.type
     ) {
 
-        carrying = false;
-
-        finished = true;
-
-        carriedTooth.style.display =
-            "none";
-
-        zoneKacip.classList.add(
-            "correct"
-        );
+        placed[
+            selectedType
+        ]++;
 
 
-        score += 30;
+        completedRepresentatives++;
+
+
+        score += 50;
 
         updateScore();
 
 
-        document.getElementById(
-            "progress"
-        ).textContent =
-            "1 / 1";
+        carriedToothIcon.style.display =
+        "none";
+
+
+        flashCorrect(
+            nearbyZone
+        );
+
+
+        const typeName =
+        getTypeName(
+            selectedType
+        );
 
 
         clue.innerHTML =
 
-            "✅ <strong>Betul!</strong><br><br>"
-
-            +
-
-            "Gigi kacip digunakan untuk "
-
-            +
-
-            "<strong>memotong makanan</strong>.";
+        "✅ <strong>Betul!</strong>"
+        +
+        "<br><br>"
+        +
+        typeName
+        +
+        " telah dipasang pada tempat yang betul."
+        +
+        "<br><br>"
+        +
+        "✨ Sistem cermin menghasilkan pasangan gigi secara automatik.";
 
 
         message.textContent =
-            "Tahniah! +30 markah";
+        "Jawapan tepat! +50 markah";
 
-        prompt.style.display =
-            "none";
+
+        carriedTooth =
+        null;
+
+
+        updateProgress();
+
+
+        if (
+            completedRepresentatives
+            ===
+            10
+        ) {
+
+            winGame();
+
+        }
+
 
         return;
 
@@ -857,114 +1548,306 @@ function interact() {
 
 
     /*
-    Wrong zones
+    WRONG
     */
 
-    if (
-        carrying
-        &&
-        (
-            distanceTo(zoneTaring)
-            <
-            95
-
-            ||
-
-            distanceTo(zoneGeraham)
-            <
-            95
-        )
-    ) {
-
-        timeLeft =
-            Math.max(
-                0,
-                timeLeft - 5
-            );
+    timeLeft =
+    Math.max(
+        0,
+        timeLeft - 5
+    );
 
 
-        message.textContent =
-            "Belum tepat. Semak semula petunjuk! -5 saat";
+    message.textContent =
+    "❌ Belum tepat. Semak semula petunjuk! -5 saat";
 
-    }
+
+    clue.innerHTML =
+
+    "🔍 <strong>Semak semula:</strong>"
+    +
+    "<br><br>"
+    +
+    carriedTooth.data.clue
+    +
+    "<br><br>"
+    +
+    "Gigi masih berada bersama anda.";
 
 }
 
+
+/* =========================
+   TYPE NAME
+========================= */
+
+function getTypeName(type) {
+
+    if (
+        type === "kacip"
+    ) {
+
+        return "Gigi Kacip";
+
+    }
+
+
+    if (
+        type === "taring"
+    ) {
+
+        return "Gigi Taring";
+
+    }
+
+
+    return "Gigi Geraham";
+
+}
+
+
+/* =========================
+   CORRECT EFFECT
+========================= */
+
+function flashCorrect(zone) {
+
+    zone.classList.add(
+        "flash-correct"
+    );
+
+
+    setTimeout(
+        function() {
+
+            zone.classList.remove(
+                "flash-correct"
+            );
+
+        },
+        700
+    );
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function updateProgress() {
+
+    /*
+    Each representative tooth
+    produces a mirrored pair.
+    */
+
+    const kacipTotal =
+    placed.kacip * 2;
+
+    const taringTotal =
+    placed.taring * 2;
+
+    const gerahamTotal =
+    placed.geraham * 2;
+
+
+    document.getElementById(
+        "countKacip"
+    ).textContent =
+
+    kacipTotal
+    +
+    " / 8";
+
+
+    document.getElementById(
+        "countTaring"
+    ).textContent =
+
+    taringTotal
+    +
+    " / 4";
+
+
+    document.getElementById(
+        "countGeraham"
+    ).textContent =
+
+    gerahamTotal
+    +
+    " / 8";
+
+
+    const total =
+
+    kacipTotal
+    +
+    taringTotal
+    +
+    gerahamTotal;
+
+
+    document.getElementById(
+        "totalProgress"
+    ).textContent =
+
+    total
+    +
+    " / 20";
+
+}
+
+
+/* =========================
+   SCORE
+========================= */
 
 function updateScore() {
 
     document.getElementById(
         "score"
     ).textContent =
-        score;
+    score;
 
 }
 
 
-/*
-Timer
-*/
+/* =========================
+   TIMER
+========================= */
 
+const timerInterval =
 setInterval(
-    function() {
 
-        if (
-            gameOver
-            ||
-            finished
-        ) {
+function() {
 
-            return;
+    if (gameOver) {
 
-        }
+        return;
+
+    }
 
 
-        timeLeft--;
+    timeLeft--;
 
 
-        if (
-            timeLeft <= 0
-        ) {
+    if (
+        timeLeft <= 0
+    ) {
 
-            timeLeft = 0;
+        timeLeft = 0;
 
-            gameOver = true;
-
-            message.textContent =
-                "⏰ Masa Tamat!";
-
-        }
+        gameOver = true;
 
 
-        const minutes =
-            Math.floor(
-                timeLeft / 60
-            );
+        message.textContent =
+        "⏰ Masa Tamat!";
 
 
-        const seconds =
-            timeLeft % 60;
+        prompt.style.display =
+        "none";
+
+    }
 
 
-        document.getElementById(
-            "timer"
-        ).textContent =
+    updateTimer();
 
-            String(minutes)
-            +
-            ":"
-            +
-            String(seconds).padStart(
-                2,
-                "0"
-            );
+},
 
-    },
-
-    1000
+1000
 );
 
+
+function updateTimer() {
+
+    const minutes =
+    Math.floor(
+        timeLeft / 60
+    );
+
+
+    const seconds =
+    timeLeft % 60;
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+
+    String(minutes)
+    +
+    ":"
+    +
+    String(seconds).padStart(
+        2,
+        "0"
+    );
+
+}
+
+
+/* =========================
+   WIN
+========================= */
+
+function winGame() {
+
+    gameOver = true;
+
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+    score;
+
+
+    document.getElementById(
+        "victoryScreen"
+    ).style.display =
+    "flex";
+
+}
+
+
+/* =========================
+   RESIZE
+========================= */
+
+window.addEventListener(
+"resize",
+
+function() {
+
+    playerX =
+    Math.min(
+        playerX,
+        map.clientWidth
+        -
+        player.offsetWidth
+    );
+
+
+    playerY =
+    Math.min(
+        playerY,
+        map.clientHeight
+        -
+        player.offsetHeight
+    );
+
+
+    updatePlayer();
+
+});
+
 </script>
+
 
 </body>
 </html>
