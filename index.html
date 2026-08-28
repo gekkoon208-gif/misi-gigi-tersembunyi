@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Misi Gigi Tersembunyi</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #dff7ff, #ffffff);
+        }
+
+        .game-container {
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+            background: white;
+            padding: 50px 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+        }
+
+        .tooth {
+            font-size: 80px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 42px;
+            color: #247ba0;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 35px;
+        }
+
+        .mission {
+            background: #f1fbff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .mission h2 {
+            color: #247ba0;
+            margin-bottom: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 15px 35px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 30px;
+            background: #38b6c9;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #249aae;
+        }
+
+        #message {
+            margin-top: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #247ba0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game-container">
+
+        <div class="tooth">🦷</div>
+
+        <h1>Misi Gigi Tersembunyi</h1>
+
+        <p class="subtitle">
+            Terokai dunia gigi dan selesaikan misi bersama!
+        </p>
+
+        <div class="mission">
+            <h2>Misi 1: Klinik Gigi</h2>
+
+            <p>
+                Cari gigi yang tersembunyi dan kenal pasti
+                jenis serta fungsinya.
+            </p>
+        </div>
+
+        <button onclick="mulaGame()">
+            Mula Permainan
+        </button>
+
+        <p id="message"></p>
+
+    </div>
+
+
+    <script>
+
+        function mulaGame() {
+
+            document.getElementById("message").innerHTML =
+            "🦷 Bersedia! Misi pertama akan bermula...";
+
+        }
+
+    </script>
+
+</body>
+</html>
