@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Misi Gigi Tersembunyi</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #dff7fb;
+    text-align: center;
+}
+
+header {
+    background: white;
+    padding: 12px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    color: #217a91;
+}
+
+.info {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-weight: bold;
+}
+
+#gameMap {
+    width: min(900px, 95vw);
+    aspect-ratio: 16 / 9;
+
+    margin: 20px auto;
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,0.15),
+            rgba(255,255,255,0.15)
+        ),
+        #bdeaf0;
+
+    border: 6px solid white;
+    border-radius: 20px;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* Klinik counter */
+
+.counter {
+    position: absolute;
+
+    left: 35%;
+    top: 8%;
+
+    width: 30%;
+    height: 13%;
+
+    background: white;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    color: #217a91;
+}
+
+/* Dental chair */
+
+.chair {
+    position: absolute;
+
+    right: 12%;
+    top: 20%;
+
+    width: 18%;
+    height: 18%;
+
+    background: #8ed1dc;
+
+    border-radius: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 38px;
+}
+
+/* Zones */
+
+.zone {
+    position: absolute;
+
+    left: 4%;
+
+    width: 22%;
+    height: 18%;
+
+    border: 3px dashed #247b91;
+
+    background: rgba(255,255,255,0.75);
+
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    font-weight: bold;
+}
+
+#zoneKacip {
+    top: 12%;
+}
+
+#zoneTaring {
+    top: 40%;
+}
+
+#zoneGeraham {
+    top: 68%;
+}
+
+.zone.correct {
+    background: #c7f5d5;
+    border-color: #25a55f;
+}
+
+/* Tooth */
+
+#tooth {
+    position: absolute;
+
+    left: 72%;
+    top: 68%;
+
+    font-size: 42px;
+
+    cursor: pointer;
+
+    animation: floating 1.5s infinite alternate;
+}
+
+@keyframes floating {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-8px);
+    }
+}
+
+/* Player */
+
+#player {
+    position: absolute;
+
+    left: 42%;
+    top: 55%;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    background: #ffd166;
+
+    border: 4px solid white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 26px;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+
+    z-index: 10;
+}
+
+#carriedTooth {
+    position: absolute;
+
+    right: -13px;
+    top: -22px;
+
+    font-size: 25px;
+
+    display: none;
+}
+
+/* Prompt */
+
+#prompt {
+    position: absolute;
+
+    bottom: 10px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(0,0,0,0.78);
+
+    color: white;
+
+    padding: 9px 18px;
+
+    border-radius: 20px;
+
+    display: none;
+
+    z-index: 20;
+}
+
+/* Information panel */
+
+#cluePanel {
+    width: min(700px, 90vw);
+
+    margin: 15px auto;
+
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+#clue {
+    color: #444;
+}
+
+#message {
+    font-weight: bold;
+    color: #217a91;
+    min-height: 25px;
+}
+
+.instructions {
+    margin-bottom: 25px;
+    color: #555;
+}
+
+kbd {
+    background: #333;
+    color: white;
+
+    padding: 4px 8px;
+
+    border-radius: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🦷 Misi Gigi Tersembunyi</h1>
+
+    <div class="info">
+
+        <span>
+            ⏱ Masa:
+            <span id="timer">03:00</span>
+        </span>
+
+        <span>
+            ⭐ Markah:
+            <span id="score">0</span>
+        </span>
+
+        <span>
+            🦷 Gigi:
+            <span id="progress">0 / 1</span>
+        </span>
+
+    </div>
+
+</header>
+
+
+<div id="gameMap">
+
+    <div class="counter">
+        🏥 Kaunter Klinik Gigi
+    </div>
+
+    <div class="chair">
+        🪥
+    </div>
+
+
+    <div
+        class="zone"
+        id="zoneKacip"
+    >
+
+        🦷
+
+        <span>
+            Gigi Kacip
+        </span>
+
+    </div>
+
+
+    <div
+        class="zone"
+        id="zoneTaring"
+    >
+
+        🦷
+
+        <span>
+            Gigi Taring
+        </span>
+
+    </div>
+
+
+    <div
+        class="zone"
+        id="zoneGeraham"
+    >
+
+        🦷
+
+        <span>
+            Gigi Geraham
+        </span>
+
+    </div>
+
+
+    <div id="tooth">
+        🦷
+    </div>
+
+
+    <div id="player">
+
+        🧑‍⚕️
+
+        <div id="carriedTooth">
+            🦷
+        </div>
+
+    </div>
+
+
+    <div id="prompt">
+        Tekan E
+    </div>
+
+</div>
+
+
+<div id="cluePanel">
+
+    <strong>
+        🔍 Maklumat Gigi
+    </strong>
+
+    <p id="clue">
+
+        Cari gigi yang tersembunyi
+        di dalam klinik.
+
+    </p>
+
+    <p id="message"></p>
+
+</div>
+
+
+<div class="instructions">
+
+    Bergerak menggunakan
+
+    <kbd>W</kbd>
+    <kbd>A</kbd>
+    <kbd>S</kbd>
+    <kbd>D</kbd>
+
+    atau kekunci anak panah.
+
+    &nbsp;
+
+    Tekan
+
+    <kbd>E</kbd>
+
+    untuk berinteraksi.
+
+</div>
+
+
+<script>
+
+const map =
+document.getElementById("gameMap");
+
+const player =
+document.getElementById("player");
+
+const tooth =
+document.getElementById("tooth");
+
+const carriedTooth =
+document.getElementById("carriedTooth");
+
+const prompt =
+document.getElementById("prompt");
+
+const clue =
+document.getElementById("clue");
+
+const message =
+document.getElementById("message");
+
+
+const zoneKacip =
+document.getElementById("zoneKacip");
+
+const zoneTaring =
+document.getElementById("zoneTaring");
+
+const zoneGeraham =
+document.getElementById("zoneGeraham");
+
+
+let playerX;
+let playerY;
+
+let carrying = false;
+
+let finished = false;
+
+let score = 0;
+
+let timeLeft = 180;
+
+let gameOver = false;
+
+
+const keys = {};
+
+
+function startPosition() {
+
+    playerX =
+        map.clientWidth * 0.42;
+
+    playerY =
+        map.clientHeight * 0.55;
+
+    updatePlayer();
+
+}
+
+startPosition();
+
+
+function updatePlayer() {
+
+    player.style.left =
+        playerX + "px";
+
+    player.style.top =
+        playerY + "px";
+
+}
+
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        keys[event.key.toLowerCase()] = true;
+
+        if (
+            event.key.toLowerCase() === "e"
+            &&
+            !event.repeat
+        ) {
+
+            interact();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keyup",
+    function(event) {
+
+        keys[event.key.toLowerCase()] = false;
+
+    }
+);
+
+
+function movementLoop() {
+
+    if (!gameOver) {
+
+        const speed = 3.5;
+
+
+        if (
+            keys["w"]
+            ||
+            keys["arrowup"]
+        ) {
+
+            playerY -= speed;
+
+        }
+
+
+        if (
+            keys["s"]
+            ||
+            keys["arrowdown"]
+        ) {
+
+            playerY += speed;
+
+        }
+
+
+        if (
+            keys["a"]
+            ||
+            keys["arrowleft"]
+        ) {
+
+            playerX -= speed;
+
+        }
+
+
+        if (
+            keys["d"]
+            ||
+            keys["arrowright"]
+        ) {
+
+            playerX += speed;
+
+        }
+
+
+        playerX =
+            Math.max(
+                0,
+                Math.min(
+                    map.clientWidth
+                    -
+                    player.offsetWidth,
+                    playerX
+                )
+            );
+
+
+        playerY =
+            Math.max(
+                0,
+                Math.min(
+                    map.clientHeight
+                    -
+                    player.offsetHeight,
+                    playerY
+                )
+            );
+
+
+        updatePlayer();
+
+        checkNearby();
+
+    }
+
+
+    requestAnimationFrame(
+        movementLoop
+    );
+
+}
+
+
+movementLoop();
+
+
+function getCenter(element) {
+
+    return {
+
+        x:
+            element.offsetLeft
+            +
+            element.offsetWidth / 2,
+
+        y:
+            element.offsetTop
+            +
+            element.offsetHeight / 2
+
+    };
+
+}
+
+
+function distanceTo(element) {
+
+    const p =
+        getCenter(player);
+
+    const e =
+        getCenter(element);
+
+
+    return Math.sqrt(
+
+        Math.pow(
+            p.x - e.x,
+            2
+        )
+
+        +
+
+        Math.pow(
+            p.y - e.y,
+            2
+        )
+
+    );
+
+}
+
+
+function checkNearby() {
+
+    let showPrompt = false;
+
+
+    if (
+        !carrying
+        &&
+        !finished
+        &&
+        distanceTo(tooth) < 75
+    ) {
+
+        showPrompt = true;
+
+        prompt.textContent =
+            "Tekan E untuk memeriksa gigi";
+
+    }
+
+
+    if (carrying) {
+
+        const zones = [
+
+            zoneKacip,
+            zoneTaring,
+            zoneGeraham
+
+        ];
+
+
+        zones.forEach(
+            function(zone) {
+
+                if (
+                    distanceTo(zone)
+                    <
+                    95
+                ) {
+
+                    showPrompt = true;
+
+                    prompt.textContent =
+                        "Tekan E untuk meletakkan gigi";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    prompt.style.display =
+        showPrompt
+        ?
+        "block"
+        :
+        "none";
+
+}
+
+
+function interact() {
+
+    if (
+        gameOver
+        ||
+        finished
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+    Pick up the tooth
+    */
+
+    if (
+        !carrying
+        &&
+        distanceTo(tooth)
+        <
+        75
+    ) {
+
+        carrying = true;
+
+        tooth.style.display =
+            "none";
+
+        carriedTooth.style.display =
+            "block";
+
+
+        clue.innerHTML =
+
+            "🦷 <strong>Ciri-ciri gigi:</strong><br><br>"
+
+            +
+
+            "• Terletak di bahagian hadapan mulut.<br>"
+
+            +
+
+            "• Berbentuk nipis dan tajam.<br>"
+
+            +
+
+            "• Digunakan untuk memotong makanan.<br><br>"
+
+            +
+
+            "Bawa gigi ini ke kawasan yang betul.";
+
+
+        score += 10;
+
+        updateScore();
+
+
+        message.textContent =
+            "Gigi ditemui! +10 markah";
+
+        return;
+
+    }
+
+
+    /*
+    Correct zone
+    */
+
+    if (
+        carrying
+        &&
+        distanceTo(zoneKacip)
+        <
+        95
+    ) {
+
+        carrying = false;
+
+        finished = true;
+
+        carriedTooth.style.display =
+            "none";
+
+        zoneKacip.classList.add(
+            "correct"
+        );
+
+
+        score += 30;
+
+        updateScore();
+
+
+        document.getElementById(
+            "progress"
+        ).textContent =
+            "1 / 1";
+
+
+        clue.innerHTML =
+
+            "✅ <strong>Betul!</strong><br><br>"
+
+            +
+
+            "Gigi kacip digunakan untuk "
+
+            +
+
+            "<strong>memotong makanan</strong>.";
+
+
+        message.textContent =
+            "Tahniah! +30 markah";
+
+        prompt.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    /*
+    Wrong zones
+    */
+
+    if (
+        carrying
+        &&
+        (
+            distanceTo(zoneTaring)
+            <
+            95
+
+            ||
+
+            distanceTo(zoneGeraham)
+            <
+            95
+        )
+    ) {
+
+        timeLeft =
+            Math.max(
+                0,
+                timeLeft - 5
+            );
+
+
+        message.textContent =
+            "Belum tepat. Semak semula petunjuk! -5 saat";
+
+    }
+
+}
+
+
+function updateScore() {
+
+    document.getElementById(
+        "score"
+    ).textContent =
+        score;
+
+}
+
+
+/*
+Timer
+*/
+
+setInterval(
+    function() {
+
+        if (
+            gameOver
+            ||
+            finished
+        ) {
+
+            return;
+
+        }
+
+
+        timeLeft--;
+
+
+        if (
+            timeLeft <= 0
+        ) {
+
+            timeLeft = 0;
+
+            gameOver = true;
+
+            message.textContent =
+                "⏰ Masa Tamat!";
+
+        }
+
+
+        const minutes =
+            Math.floor(
+                timeLeft / 60
+            );
+
+
+        const seconds =
+            timeLeft % 60;
+
+
+        document.getElementById(
+            "timer"
+        ).textContent =
+
+            String(minutes)
+            +
+            ":"
+            +
+            String(seconds).padStart(
+                2,
+                "0"
+            );
+
+    },
+
+    1000
+);
+
+</script>
+
+</body>
+</html>
